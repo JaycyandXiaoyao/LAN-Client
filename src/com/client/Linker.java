@@ -34,7 +34,7 @@ public class Linker extends Thread{
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	@Override
