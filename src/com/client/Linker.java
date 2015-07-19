@@ -9,7 +9,11 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
-
+/**
+ * 
+ * @author NB111
+ *@version 0.0.1
+ */
 public class Linker extends Thread{
 	private InetAddress serverAdd;
 	private InetAddress group;
