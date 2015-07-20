@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 
  * @author NB111
- *@version 0.0.1
+ *@version 0.0.4
  */
 public class Linker extends Thread{
 	private InetAddress serverAdd;
@@ -36,8 +36,6 @@ public class Linker extends Thread{
 				NetInterfaceNotFound();
 			}
 		} catch (UnknownHostException e) {
-			new MyOut();
-			// TODO Auto-generated catch block
 			MyOut.println(e.toString());
 		} 
 	}
@@ -45,22 +43,17 @@ public class Linker extends Thread{
 	@Override
 	public void run(){
 		while (true) {
-			/*
-			 * 发送请求包
-			 */
+			 // 发送请求包
 			try {
 				DatagramSocket socketSender = new DatagramSocket(dstport);
 				byte[] dataRequest = new String("001"+username).getBytes();
 				DatagramPacket request = new DatagramPacket(dataRequest, dataRequest.length, group, dstport);
 				socketSender.send(request);
 				socketSender.close();
-				new MyOut();
 				MyOut.println("发送成功:"+new String(dataRequest));
 			} catch (IOException e) {
 			}
-			/*
-			 * 接收服务器IP，超时重新发送请求.
-			 */
+			// 接收服务器IP，超时重新发送请求.
 			DatagramSocket socketReciever = null ;
 			try {
 				socketReciever = new DatagramSocket(srcport); 
@@ -73,9 +66,8 @@ public class Linker extends Thread{
 				if(!isReply(massage.substring(0, 3))){
 					serverAdd = reply.getAddress();
 					linkSuccessed();
-					new MyOut();
 					MyOut.println("找到服务器，IP："+serverAdd.getHostAddress());
-					Thread.sleep(3600000);
+					break;
 				}
 				else{
 					Thread.sleep(500);
@@ -83,7 +75,6 @@ public class Linker extends Thread{
 				
 
 			} catch (IOException | InterruptedException e) {
-				new MyOut();
 				MyOut.println(e.toString()+"服务器查找超时，重试中...");
 				linktime++;
 				if(linktime == 100){
@@ -157,7 +148,6 @@ public class Linker extends Thread{
 				List<InterfaceAddress> interfaceAddresses = netInterface.getInterfaceAddresses();
 				for (InterfaceAddress interfaceAddress : interfaceAddresses) {
 					if (interfaceAddress.getBroadcast() != null) {
-						new MyOut();
 						MyOut.println(interfaceAddress.getBroadcast().getHostAddress());// 输出广播地址
 						return interfaceAddress.getBroadcast().getHostAddress();
 					}
