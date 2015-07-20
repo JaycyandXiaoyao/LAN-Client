@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 
  * @author NB111
- *@version 0.0.4
+ *@version 0.0.5
  */
 public class Linker extends Thread{
 	private InetAddress serverAdd;
@@ -90,6 +90,7 @@ public class Linker extends Thread{
 	}
 	
 	protected void linkStart() {
+		// TODO Auto-generated method stub
 		
 	}
 
