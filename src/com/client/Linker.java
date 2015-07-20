@@ -28,7 +28,7 @@ public class Linker extends Thread{
 			this.dstport = dstport;
 			this.srcport = srcport;
 			this.username = username;
-			broadCastAdd = this.getLocalBroadCastAdd();
+			broadCastAdd = "255.255.255.255";
 			if(broadCastAdd != null){
 				group = InetAddress.getByName(broadCastAdd);
 				this.start();	
