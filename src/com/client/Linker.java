@@ -36,8 +36,9 @@ public class Linker extends Thread{
 				NetInterfaceNotFound();
 			}
 		} catch (UnknownHostException e) {
+			new MyOut();
 			// TODO Auto-generated catch block
-			new MyOut().println(e.toString());
+			MyOut.println(e.toString());
 		} 
 	}
 
@@ -53,7 +54,8 @@ public class Linker extends Thread{
 				DatagramPacket request = new DatagramPacket(dataRequest, dataRequest.length, group, dstport);
 				socketSender.send(request);
 				socketSender.close();
-				new MyOut().println("发送成功:"+new String(dataRequest));
+				new MyOut();
+				MyOut.println("发送成功:"+new String(dataRequest));
 			} catch (IOException e) {
 			}
 			/*
@@ -64,23 +66,25 @@ public class Linker extends Thread{
 				socketReciever = new DatagramSocket(srcport); 
 				byte[] dataResponce = new byte[1024];
 				DatagramPacket reply = new DatagramPacket(dataResponce, dataResponce.length);
-				socketReciever.setSoTimeout(100);
+				socketReciever.setSoTimeout(500);
 				socketReciever.receive(reply);
 				socketReciever.close();
 				String massage = byteToString(reply.getData());
 				if(!isReply(massage.substring(0, 3))){
 					serverAdd = reply.getAddress();
 					linkSuccessed();
-					new MyOut().println("找到服务器，IP："+serverAdd.getHostAddress());
+					new MyOut();
+					MyOut.println("找到服务器，IP："+serverAdd.getHostAddress());
 					Thread.sleep(3600000);
 				}
 				else{
-					Thread.sleep(100);
+					Thread.sleep(500);
 				}
 				
 
 			} catch (IOException | InterruptedException e) {
-				new MyOut().println(e.toString()+"服务器查找超时，重试中...");
+				new MyOut();
+				MyOut.println(e.toString()+"服务器查找超时，重试中...");
 				linktime++;
 				if(linktime == 100){
 					socketReciever.close();
@@ -153,7 +157,8 @@ public class Linker extends Thread{
 				List<InterfaceAddress> interfaceAddresses = netInterface.getInterfaceAddresses();
 				for (InterfaceAddress interfaceAddress : interfaceAddresses) {
 					if (interfaceAddress.getBroadcast() != null) {
-						new MyOut().println(interfaceAddress.getBroadcast().getHostAddress());// 输出广播地址
+						new MyOut();
+						MyOut.println(interfaceAddress.getBroadcast().getHostAddress());// 输出广播地址
 						return interfaceAddress.getBroadcast().getHostAddress();
 					}
 				}

@@ -1,13 +1,11 @@
 package com.client;
-public class MyOut implements Log {
+public class MyOut {
 
-	@Override
-	public void println(String msg) {
+	public static void println(String msg) {
 		System.out.println(msg);
 	}
 
-	@Override
-	public void println(Object object) {
+	public static void println(Object object) {
 		System.out.println(object.toString());
 	}
 
