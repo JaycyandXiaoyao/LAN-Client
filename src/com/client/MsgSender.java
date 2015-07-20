@@ -42,7 +42,7 @@ public class MsgSender {
 			
 		} catch (IOException e)
 		{
-			e.printStackTrace();
+			new MyOut().println(e.toString());
 			new Linker(linker.getSrcport(), linker.getDstport(), linker.getUsername()){
 				@Override
 				protected void linkSuccessed() {

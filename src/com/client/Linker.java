@@ -37,7 +37,7 @@ public class Linker extends Thread{
 			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new MyOut().println(e.toString());
 		} 
 	}
 
@@ -53,7 +53,7 @@ public class Linker extends Thread{
 				DatagramPacket request = new DatagramPacket(dataRequest, dataRequest.length, group, dstport);
 				socketSender.send(request);
 				socketSender.close();
-				System.out.println("发送成功:"+new String(dataRequest));
+				new MyOut().println("发送成功:"+new String(dataRequest));
 			} catch (IOException e) {
 			}
 			/*
@@ -71,7 +71,7 @@ public class Linker extends Thread{
 				if(!isReply(massage.substring(0, 3))){
 					serverAdd = reply.getAddress();
 					linkSuccessed();
-					System.out.println("找到服务器，IP："+serverAdd.getHostAddress());
+					new MyOut().println("找到服务器，IP："+serverAdd.getHostAddress());
 					Thread.sleep(3600000);
 				}
 				else{
@@ -80,7 +80,7 @@ public class Linker extends Thread{
 				
 
 			} catch (IOException | InterruptedException e) {
-				System.out.println(e.toString()+"服务器查找超时，重试中...");
+				new MyOut().println(e.toString()+"服务器查找超时，重试中...");
 				linktime++;
 				if(linktime == 100){
 					socketReciever.close();
@@ -153,7 +153,7 @@ public class Linker extends Thread{
 				List<InterfaceAddress> interfaceAddresses = netInterface.getInterfaceAddresses();
 				for (InterfaceAddress interfaceAddress : interfaceAddresses) {
 					if (interfaceAddress.getBroadcast() != null) {
-						System.out.println(interfaceAddress.getBroadcast().getHostAddress());// 输出广播地址
+						new MyOut().println(interfaceAddress.getBroadcast().getHostAddress());// 输出广播地址
 						return interfaceAddress.getBroadcast().getHostAddress();
 					}
 				}
