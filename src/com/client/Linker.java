@@ -44,6 +44,7 @@ public class Linker extends Thread{
 	public void run(){
 		while (true) {
 			 // ·¢ËÍÇëÇó°ü
+			linkStart();
 			try {
 				DatagramSocket socketSender = new DatagramSocket(dstport);
 				byte[] dataRequest = new String("001"+username).getBytes();
@@ -88,6 +89,10 @@ public class Linker extends Thread{
 		}
 	}
 	
+	protected void linkStart() {
+		
+	}
+
 	public static String byteToString(byte[] bs)
 	{
 		String result = new String(bs);
