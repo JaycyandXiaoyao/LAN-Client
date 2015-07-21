@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 
  * @author NB111
- *@version 0.0.5
+ *@version 0.0.6
  */
 public class Linker extends Thread{
 	private InetAddress serverAdd;
@@ -24,27 +24,28 @@ public class Linker extends Thread{
 	private int srcport;
 	private int linktime = 0;
 	public Linker(int srcport, int dstport, String username){
+		
+		this.dstport = dstport;
+		this.srcport = srcport;
+		this.username = username;
+		broadCastAdd = "255.255.255.255";
+		
 		try {
-			this.dstport = dstport;
-			this.srcport = srcport;
-			this.username = username;
-			broadCastAdd = "255.255.255.255";
-			if(broadCastAdd != null){
-				group = InetAddress.getByName(broadCastAdd);
-				this.start();	
-			}else {
-				NetInterfaceNotFound();
-			}
+			group = InetAddress.getByName(broadCastAdd);
+			start();	
 		} catch (UnknownHostException e) {
 			MyOut.println(e.toString());
 		} 
+		
 	}
 
 	@Override
 	public void run(){
+		
+		linkStart();
+		
 		while (true) {
-			 // 发送请求包
-			linkStart();
+			// 发送请求包
 			try {
 				DatagramSocket socketSender = new DatagramSocket(dstport);
 				byte[] dataRequest = new String("001"+username).getBytes();
@@ -53,7 +54,9 @@ public class Linker extends Thread{
 				socketSender.close();
 				MyOut.println("发送成功:"+new String(dataRequest));
 			} catch (IOException e) {
+				MyOut.println(e);
 			}
+			
 			// 接收服务器IP，超时重新发送请求.
 			DatagramSocket socketReciever = null ;
 			try {
@@ -73,12 +76,12 @@ public class Linker extends Thread{
 				else{
 					Thread.sleep(500);
 				}
-				
+
 
 			} catch (IOException | InterruptedException e) {
 				MyOut.println(e.toString()+"服务器查找超时，重试中...");
 				linktime++;
-				if(linktime == 100){
+				if(linktime == 20){
 					socketReciever.close();
 					linkTimeOut();
 					break;
@@ -88,21 +91,16 @@ public class Linker extends Thread{
 
 		}
 	}
-	
-	protected void linkStart() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public static String byteToString(byte[] bs)
 	{
 		String result = new String(bs);
 		return result.trim();
 	}
-	
+
 	public boolean isReply(String s){
 		return s.equals("001");
-		
+
 	}
 
 	public int getDstport() {
@@ -124,27 +122,27 @@ public class Linker extends Thread{
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
-	}
-	
-	protected void linkSuccessed() {
-		
-	}
-	
-	protected void linkTimeOut() {
-		
-	}
-	
-	protected void NetInterfaceNotFound() {
-		
 	}
 
 	public InetAddress getServerAdd() {
 		return serverAdd;
 	}
-	
+
+	protected void linkStart() {
+
+	}
+
+	protected void linkSuccessed() {
+
+	}
+
+	protected void linkTimeOut() {
+
+	}
+
 	public String getLocalBroadCastAdd(){
 		try {
 			InetAddress address = InetAddress.getLocalHost();
@@ -164,6 +162,6 @@ public class Linker extends Thread{
 		}
 		return null;
 	}
-	
+
 
 }

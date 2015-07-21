@@ -58,7 +58,6 @@ public class MsgSender {
 		}
 	}
 	protected void sendSuccessed() {
-		// TODO Auto-generated method stub
 		
 	}
 
